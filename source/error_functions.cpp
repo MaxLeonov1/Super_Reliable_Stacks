@@ -36,8 +36,6 @@ void StackDump ( Stack_t* stack ) {
 
 }
 
-
-
 ErrorCode StackErrorHandler ( Stack_t* stack ) {
 
     if ( stack->capacity == 0 )
@@ -45,6 +43,9 @@ ErrorCode StackErrorHandler ( Stack_t* stack ) {
 
     if ( stack->size >= stack->capacity )
         return ErrorCode::SIZE_OVERFLOW_ERROR;
+
+    if ( stack->data == nullptr )
+        return ErrorCode::STACK_ALLOCATION_ERROR;
 
     return ErrorCode::HANDLED_SUCCSESFULY;
 

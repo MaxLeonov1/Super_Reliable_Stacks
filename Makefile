@@ -7,7 +7,7 @@ CFLAGS=-c -Wshadow -Winit-self -Wredundant-decls -Wcast-align -Wundef -Wfloat-eq
 	   -Wstack-usage=8192 -Wstrict-aliasing -Wstrict-null-sentinel -Wtype-limits \
 	   -Wwrite-strings -Werror=vla -D_DEBUG -D_EJUDGE_CLIENT_SIDE
 
-SOURCES = main.cpp stack_functions.cpp error_functions.cpp
+SOURCES = main.cpp stack_functions.cpp error_functions.cpp supporting_functions.cpp
 
 LDFLAGS =
 OBJDIR = obj

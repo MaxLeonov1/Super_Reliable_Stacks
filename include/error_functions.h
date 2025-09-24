@@ -5,7 +5,9 @@
 #include "enum.h"
 
 
-void StackDump ( Stack_t* stack );
+void      StackDump ( Stack_t* stack );
+ErrorCode StackErrorHandler ( Stack_t* stack );
+char*     StackErrorMessage ( ErrorCode status );
 
 
 #endif
