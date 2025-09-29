@@ -1,31 +1,28 @@
 #ifndef __STRUCTS__
 #define __STRUCTS__
 
+/*-------------------------------------------------------*/
 #include <stdlib.h>
 
-typedef struct {
-
-    //char* func_name  = nullptr;
-    int   line_num   = 0;
-    char* file_name  = nullptr;
-
-} Var_Pos_Info; 
-
-
+#include "consts_and_defines.h"
+/*-------------------------------------------------------*/
 
 typedef struct {
 
-    //Var_Pos_Info pos_info = {};
+    #ifdef DEBUG
 
     int   line_num;
     char* file_name;
+    char* stack_name;
 
-    char*  stack_name;
-    int*   data;
-    size_t size;
-    size_t capacity;
+    #endif
+
+    STK_ELM_TYPE* data;
+    size_t        size;
+    size_t        capacity;
 
 } Stack_t;
 
+/*-------------------------------------------------------*/
 
 #endif

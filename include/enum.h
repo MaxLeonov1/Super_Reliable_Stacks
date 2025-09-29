@@ -9,6 +9,7 @@ typedef enum {
     ZERO_CAPACITY_ERROR = 1,
     SIZE_OVERFLOW_ERROR = 2,
     STACK_ALLOCATION_ERROR = 3,
+    ZERO_SIZE_ERROR = 4,
 
 } ErrorCode;
 /*-------------------------------------------------------*/

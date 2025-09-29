@@ -2,44 +2,65 @@
 #include <stdlib.h>
 #include <assert.h>
 
+/*-----------------------------------------------------------------------------------------------*/
+
 #include "enum.h"
 #include "struct.h"
+#include "consts_and_defines.h"
 #include "stack_functions.h"
 #include "error_functions.h"
-#include "supporting_functions.h"
 
-
+/*-----------------------------------------------------------------------------------------------*/
 
 ErrorCode StackCtor ( Stack_t* stack, size_t capacity ) {
 
     assert ( stack != nullptr );
 
-    stack->data = (int*) calloc ( capacity, sizeof(int) );
+    stack->data = (STK_ELM_TYPE*) calloc ( capacity + 2, sizeof(int) );
     stack->capacity = capacity;
-    stack->size = 0;
+    stack->size = 1;
+
+    for ( size_t ind = 1; ind <= capacity; ind++ ) stack->data[ind] = POISON_NUM;
+
+    stack->data[0] = CANARY_NUM;
+    stack->data[capacity + 1] = CANARY_NUM;
+
+    ERR_HANDL_PRINT ( stack );
 
 }
 
-ErrorCode StackPush ( Stack_t* stack, int value ) {
+/*-----------------------------------------------------------------------------------------------*/
+
+ErrorCode StackPush ( Stack_t* stack, STK_ELM_TYPE value ) {
 
     assert ( stack != nullptr );
 
-    if ( stack->size >= stack->capacity - 2 ) StackAllocation ( stack, StkAllocType::UP );
+    ERR_HANDL_PRINT ( stack );
+
+    if ( stack->size >= stack->capacity - 2 ) StackAllocation ( stack );
 
     stack->data[stack->size++] = value;
 
 }
 
-ErrorCode StackPop ( Stack_t* stack, int* value ) {
+/*-----------------------------------------------------------------------------------------------*/
+
+ErrorCode StackPop ( Stack_t* stack, STK_ELM_TYPE* value ) {
 
     assert ( stack != nullptr );
 
+    ERR_HANDL_PRINT ( stack ) ;
+
     *value = stack->data[stack->size - 1];
 
-    stack->data[stack->size - 1] = 0;
+    stack->data[stack->size - 1] = POISON_NUM;
     stack->size--; 
 
+    ERR_HANDL_PRINT ( stack ) ;
+
 }
+
+/*-----------------------------------------------------------------------------------------------*/
 
 ErrorCode StackDtor ( Stack_t* stack ) {
 
@@ -53,35 +74,19 @@ ErrorCode StackDtor ( Stack_t* stack ) {
 
 }
 
-ErrorCode StackAllocation ( Stack_t* stack, StkAllocType alloc_type ) {
+/*-----------------------------------------------------------------------------------------------*/
 
-    if ( alloc_type == StkAllocType::UP ) {
+ErrorCode StackAllocation ( Stack_t* stack ) {
 
-        stack->data = (int*) recalloc ( stack->data, stack->capacity, stack->capacity*2 );
+    stack->data = (STK_ELM_TYPE*) realloc ( stack->data, ( stack->capacity*2 + 2 ) * sizeof(long) );
 
-        if ( StackErrorHandler( stack ) != HANDLED_SUCCSESFULY ) {
+    ERR_HANDL_PRINT ( stack );
 
-            StackDump ( stack );
-            return StackErrorHandler ( stack );
+    for ( size_t ind = stack->size; ind < stack->capacity*2 + 2; ind++ ) stack->data[ind] = POISON_NUM;
 
-        }
-
-        stack->capacity = stack->capacity*2;
-
-
-    } else if ( alloc_type == StkAllocType::DOWN ) {
-
-        stack->data = (int*) recalloc ( stack->data, stack->capacity, stack->capacity/2 );
-
-        if ( StackErrorHandler( stack ) != HANDLED_SUCCSESFULY ) {
-
-            StackDump ( stack );
-            return StackErrorHandler ( stack );
-
-        }
-
-        stack->capacity = stack->capacity/2;
-
-    }
+    stack->capacity = stack->capacity*2;
+    stack->data[stack->capacity + 1] = CANARY_NUM;
 
 }
+
+/*-----------------------------------------------------------------------------------------------*/
