@@ -3,11 +3,10 @@
 
 /*-------------------------------------------------------*/
 
-#define DEBUG
-
 const int CANARY_NUM = 0xFEE1DEAD;
 const int POISON_NUM = 0xDEADFA11;
 typedef long STK_ELM_TYPE;
+#define DEBUG
 
 /*-------------------------------------------------------*/       
 
@@ -33,6 +32,7 @@ typedef long STK_ELM_TYPE;
 .line_num = __LINE__, \
 .file_name = __FILE__, \
 .stack_name = #name, \
+.sum_elm_check = 0, \
 .data = nullptr, \
 .size = 0, \
 .capacity = 0 }\                       
@@ -48,6 +48,5 @@ typedef long STK_ELM_TYPE;
 #endif
 
 /*-------------------------------------------------------*/
-
 
 #endif

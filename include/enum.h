@@ -10,6 +10,7 @@ typedef enum {
     SIZE_OVERFLOW_ERROR = 2,
     STACK_ALLOCATION_ERROR = 3,
     ZERO_SIZE_ERROR = 4,
+    INCORRECT_CONTROL_SUM_ERROR = 5,
 
 } ErrorCode;
 /*-------------------------------------------------------*/

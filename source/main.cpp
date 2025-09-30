@@ -7,6 +7,7 @@
 #include "struct.h"
 #include "stack_functions.h"
 #include "error_functions.h"
+#include "stack_tests.h"
 
 /*-------------------------------------------------------*/
 
@@ -18,18 +19,23 @@ int main() {
 
     StackCtor ( &stk_1, 5 );
 
+    //printf("%p\n", stk_1.data);
+    //StackDump(&stk_1);
+
     StackPush ( &stk_1, 1 );
     StackPush ( &stk_1, 2 );
     StackPush ( &stk_1, 3 );
     StackPush ( &stk_1, 4 );
 
-    StackPop ( &stk_1, &value );
-    StackPop ( &stk_1, &value );
-    StackPop ( &stk_1, &value );
-    StackPop ( &stk_1, &value );
-    StackPop ( &stk_1, &value );
+    #ifdef DEBUG
 
-    // StackDump ( &stk_1 );
+    SizeOverflowTest ( &stk_1 );
+    CanaryDestructionTest ( &stk_1 );
+    //IncorrectControlSumTest ( &stk_1 ); // Защита пока не работает
+
+    #endif
+
+    StackPush ( &stk_1, 5 );
 
     StackDtor ( &stk_1 );
 

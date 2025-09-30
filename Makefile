@@ -7,13 +7,21 @@ CFLAGS=-c -Wshadow -Winit-self -Wredundant-decls -Wcast-align -Wundef -Wfloat-eq
 	   -Wstack-usage=8192 -Wstrict-aliasing -Wstrict-null-sentinel -Wtype-limits \
 	   -Wwrite-strings -Werror=vla -D_DEBUG -D_EJUDGE_CLIENT_SIDE
 
-SOURCES = main.cpp stack_functions.cpp error_functions.cpp
+DEBUG_FLAGS = -DDEBUG
+
+SOURCES = main.cpp stack_functions.cpp error_functions.cpp stack_tests.cpp
 
 LDFLAGS =
 OBJDIR = obj
 CXX = g++
 OBJECTS = $(addprefix $(OBJDIR)/, $(SOURCES:.cpp=.o))
 EXECUTABLE = stack_prj
+
+COMPILE_MODE ?= debug
+
+ifeq ( $(COMPILE_MODE), debug )
+	CFLAGS += $(DEBUG_FLAGS)
+endif
 
 all: $(EXECUTABLE)
 

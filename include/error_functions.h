@@ -8,8 +8,10 @@
 /*-------------------------------------------------------*/
 
 void      StackDump               ( Stack_t* stack );
+void      PrintStackElements      ( Stack_t* stack );
 ErrorCode StackErrorHandler       ( Stack_t* stack, bool is_dump );
 char*     DataSpecialParamHandler ( STK_ELM_TYPE param );
+long      ControlSumCount         ( Stack_t* stack );
 
 /*-------------------------------------------------------*/
 

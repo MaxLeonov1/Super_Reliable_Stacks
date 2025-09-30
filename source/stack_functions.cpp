@@ -16,14 +16,16 @@ ErrorCode StackCtor ( Stack_t* stack, size_t capacity ) {
 
     assert ( stack != nullptr );
 
-    stack->data = (STK_ELM_TYPE*) calloc ( capacity + 2, sizeof(int) );
     stack->capacity = capacity;
     stack->size = 1;
+    stack->data = (STK_ELM_TYPE*) calloc ( capacity + 2, sizeof(STK_ELM_TYPE) );
 
     for ( size_t ind = 1; ind <= capacity; ind++ ) stack->data[ind] = POISON_NUM;
 
     stack->data[0] = CANARY_NUM;
     stack->data[capacity + 1] = CANARY_NUM;
+
+    //StackDump(stack);
 
     ERR_HANDL_PRINT ( stack );
 
@@ -33,6 +35,8 @@ ErrorCode StackCtor ( Stack_t* stack, size_t capacity ) {
 
 ErrorCode StackPush ( Stack_t* stack, STK_ELM_TYPE value ) {
 
+    //printf("sus\n");
+
     assert ( stack != nullptr );
 
     ERR_HANDL_PRINT ( stack );
@@ -40,6 +44,14 @@ ErrorCode StackPush ( Stack_t* stack, STK_ELM_TYPE value ) {
     if ( stack->size >= stack->capacity - 2 ) StackAllocation ( stack );
 
     stack->data[stack->size++] = value;
+
+    #ifdef DEBUG
+    stack->sum_elm_check += value;
+    #endif
+
+    //printf("%ld %ld\n", ControlSumCount(stack), stack->sum_elm_check);
+
+    ERR_HANDL_PRINT ( stack );
 
 }
 
@@ -55,6 +67,10 @@ ErrorCode StackPop ( Stack_t* stack, STK_ELM_TYPE* value ) {
 
     stack->data[stack->size - 1] = POISON_NUM;
     stack->size--; 
+
+    #ifdef DEBUG
+    stack->sum_elm_check -= *value;
+    #endif
 
     ERR_HANDL_PRINT ( stack ) ;
 
@@ -78,7 +94,7 @@ ErrorCode StackDtor ( Stack_t* stack ) {
 
 ErrorCode StackAllocation ( Stack_t* stack ) {
 
-    stack->data = (STK_ELM_TYPE*) realloc ( stack->data, ( stack->capacity*2 + 2 ) * sizeof(long) );
+    stack->data = (STK_ELM_TYPE*) realloc ( stack->data, ( stack->capacity*2 + 2 ) * sizeof(STK_ELM_TYPE) );
 
     ERR_HANDL_PRINT ( stack );
 

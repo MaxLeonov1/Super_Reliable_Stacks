@@ -15,6 +15,8 @@ typedef struct {
     char* file_name;
     char* stack_name;
 
+    long sum_elm_check;
+
     #endif
 
     STK_ELM_TYPE* data;
